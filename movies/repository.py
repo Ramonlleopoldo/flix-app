@@ -3,7 +3,7 @@ from login.service import logout
 import streamlit as st
 
 
-class MovieDirectory:
+class Movierepository:
     def __init__(self):
         self.__base_url = 'https://ramonlleopoldo.pythonanywhere.com/api/v1/'
         self.__movies_url = f'{self.__base_url}movies/'
@@ -40,6 +40,17 @@ class MovieDirectory:
                                    headers=self.__headers)
         if response.status_code == 204:
             return {'mensagem': 'Gênero deletado com sucesso'}
+        if response.status_code == 401:
+            logout()
+            return None
+        raise Exception(f'Erro ao obter dados da API: {response.status_code}')
+
+    def get_movie_stats(self):
+        movie_stats_url = f'{self.__movies_url}stats/'
+        response = requests.get(url=movie_stats_url,
+                                headers=self.__headers)
+        if response.status_code == 200:
+            return response.json()
         if response.status_code == 401:
             logout()
             return None

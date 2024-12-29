@@ -7,7 +7,11 @@ class GenresServices:
         self.genre_repository = GenresRepository()
 
     def get_genres(self):
-        return self.genre_repository.get_genres()
+        if 'genres' in st.session_state:
+            return st.session_state.genres
+        genres = self.genre_repository.get_genres()
+        st.session_state.genres = genres
+        return genres
 
     def post_genre(self, name):
         name = name.strip().title()
@@ -17,7 +21,9 @@ class GenresServices:
                 return st.error('Esse genero já existe')
         genre_data = dict(name=name)
         st.success("Gênero cadastrado com sucesso")
-        return self.genre_repository.post_genre(genre_data)
+        new_genres = self.genre_repository.post_genre(genre_data)
+        st.session_state.genres.append(new_genres)
+        return new_genres
 
     def update_genre(self, id, name):
         name = name.strip().title()

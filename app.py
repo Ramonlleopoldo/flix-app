@@ -1,5 +1,6 @@
 import streamlit as st
 from login.page_login import show_login
+from home.page import show_home
 from genres.page_genres import show_genres
 from actors.page_actors import show_actors
 from movies.page_movies import show_movies
@@ -16,7 +17,7 @@ def main():
             ("Inicio", "Generos", "Atores/Atrizes", "Lista de Filmes", "Avaliações")
         )
         if add_selectbox == "Inicio":
-            st.title("Bem vindo ao flix API")
+            show_home()
         if add_selectbox == "Generos":
             show_genres()
         if add_selectbox == "Atores/Atrizes":

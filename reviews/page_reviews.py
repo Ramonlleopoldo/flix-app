@@ -32,11 +32,11 @@ def show_reviews():
     selected_movie_id = movie_name_id[selected_movie_name]
 
     # Capturando nota
-    rating = st.selectbox('Nota:', options)
+    stars = st.selectbox('Nota:', options)
 
     # Capturando comentario
     coments = st.text_area("Comentario:")
 
     if st.button('Salvar'):
-        reviews_service.post_reviews(user_name=user_name, movie=selected_movie_id, rating=rating, coments=coments)
+        reviews_service.post_reviews(user_name=user_name, movie=selected_movie_id, stars=stars, coments=coments)
         st.rerun()

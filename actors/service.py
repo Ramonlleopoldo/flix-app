@@ -7,7 +7,11 @@ class ActorsService:
         self.actors_repository = ActorsRespository()
 
     def get_actors(self):
-        return self.actors_repository.get_actors()
+        if 'actors' in st.session_state:
+            return st.session_state.actors
+        actors = self.actors_repository.get_actors()
+        st.session_state.actors = actors
+        return actors
 
     def post_actors(self, name, nationality):
         name = name.strip().title()
@@ -18,7 +22,9 @@ class ActorsService:
                 return None
 
         st.success("ator cadastrado com sucesso")
-        return self.actors_repository.post_actors(name, nationality)
+        new_actor = self.actors_repository.post_actors(name, nationality)
+        st.session_state.actors.append(new_actor)
+        return new_actor
 
     def update_actors(self, id, name, nationality):
         name = name.strip().title()
